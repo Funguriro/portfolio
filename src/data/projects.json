@@ -1,0 +1,54 @@
+[
+  {
+    "id": "1",
+    "title": "AI Customer Support Platform",
+    "description": "A fully autonomous support agent that handles 80% of tickets without human intervention. Built with GPT-4, RAG pipelines, and a custom escalation engine.",
+    "tags": ["Next.js", "OpenAI", "Pinecone", "TypeScript"],
+    "github": "https://github.com",
+    "live": "https://example.com",
+    "featured": true
+  },
+  {
+    "id": "2",
+    "title": "Real-Time Analytics Dashboard",
+    "description": "Live data visualization platform processing 10M+ events per day. Features custom chart engine, anomaly detection, and role-based access.",
+    "tags": ["React", "Node.js", "PostgreSQL", "Redis"],
+    "github": "https://github.com",
+    "live": "https://example.com",
+    "featured": true
+  },
+  {
+    "id": "3",
+    "title": "E-Commerce Microservices",
+    "description": "Distributed commerce platform with independent checkout, inventory, and notification services. Handles 50k+ concurrent users.",
+    "tags": ["Kubernetes", "Go", "Kafka", "MongoDB"],
+    "github": "https://github.com",
+    "featured": true
+  },
+  {
+    "id": "4",
+    "title": "Document Intelligence API",
+    "description": "Extract structured data from any document type — invoices, contracts, forms — using vision models and custom post-processing.",
+    "tags": ["Python", "FastAPI", "GPT-4V", "AWS"],
+    "github": "https://github.com",
+    "live": "https://example.com",
+    "featured": false
+  },
+  {
+    "id": "5",
+    "title": "DevOps Automation Suite",
+    "description": "CI/CD pipeline manager with Slack-native controls, auto-rollback on health check failures, and deployment audit logs.",
+    "tags": ["Terraform", "GitHub Actions", "AWS", "TypeScript"],
+    "github": "https://github.com",
+    "featured": false
+  },
+  {
+    "id": "6",
+    "title": "Mobile Fitness Tracker",
+    "description": "Cross-platform fitness app with AI-generated workout plans, progress analytics, and social accountability features.",
+    "tags": ["React Native", "Expo", "Supabase", "OpenAI"],
+    "github": "https://github.com",
+    "live": "https://example.com",
+    "featured": false
+  }
+]

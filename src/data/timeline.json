@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "title": "Senior Full-Stack Engineer",
+    "company": "TechCorp Ltd",
+    "period": "2022 – Present",
+    "description": "Leading a team of 5 engineers building AI-powered SaaS products. Architected the core platform serving 200k+ users.",
+    "type": "work"
+  },
+  {
+    "id": "2",
+    "title": "Full-Stack Developer",
+    "company": "StartupXYZ",
+    "period": "2020 – 2022",
+    "description": "Built the company's first product from zero to Series A. Owned the entire frontend, API, and DevOps infrastructure.",
+    "type": "work"
+  },
+  {
+    "id": "3",
+    "title": "Software Engineer",
+    "company": "Consulting Agency",
+    "period": "2018 – 2020",
+    "description": "Delivered bespoke web platforms for 15+ clients across fintech, healthcare, and retail sectors.",
+    "type": "work"
+  },
+  {
+    "id": "4",
+    "title": "BSc Computer Science",
+    "company": "University of London",
+    "period": "2014 – 2018",
+    "description": "First-class honours. Dissertation on distributed systems and consensus algorithms. Active in hackathon culture.",
+    "type": "education"
+  }
+]

@@ -1,0 +1,57 @@
+import { NextResponse } from "next/server";
+
+export const revalidate = 3600; // cache 1 hour
+
+interface GoogleReview {
+  author_name: string;
+  rating: number;
+  text: string;
+  time: number;
+  profile_photo_url?: string;
+  author_url?: string;
+}
+
+export async function GET() {
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  const placeId = process.env.GOOGLE_PLACE_ID;
+
+  if (!apiKey || !placeId) {
+    return NextResponse.json({ reviews: [], rating: null, total: null });
+  }
+
+  try {
+    const res = await fetch(
+      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews,rating,user_ratings_total&key=${apiKey}`,
+      { next: { revalidate: 3600 } }
+    );
+
+    if (!res.ok) throw new Error(`Places API ${res.status}`);
+
+    const data = await res.json();
+
+    if (data.status !== "OK") {
+      throw new Error(`Places API status: ${data.status}`);
+    }
+
+    const result = data.result;
+    const reviews = (result.reviews || []).map((r: GoogleReview, i: number) => ({
+      id: String(i),
+      name: r.author_name,
+      role: "Google Review",
+      company: "",
+      content: r.text,
+      rating: r.rating,
+      avatar: r.profile_photo_url || null,
+      time: r.time,
+    }));
+
+    return NextResponse.json({
+      reviews,
+      rating: result.rating,
+      total: result.user_ratings_total,
+    });
+  } catch (err) {
+    console.error("Google Places error:", err);
+    return NextResponse.json({ reviews: [], rating: null, total: null });
+  }
+}

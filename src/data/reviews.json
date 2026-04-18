@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "name": "Sarah Chen",
+    "role": "CTO",
+    "company": "TechCorp Ltd",
+    "content": "Nigel is one of the most technically sharp engineers I've worked with. He takes ownership, ships fast, and the quality is always there. Our AI platform would not exist without him.",
+    "rating": 5
+  },
+  {
+    "id": "2",
+    "name": "James Okafor",
+    "role": "Co-Founder",
+    "company": "StartupXYZ",
+    "content": "Hired Nigel as our first engineer — he built the entire product in 6 months. Full-stack, DevOps, AI features, everything. Exceptional.",
+    "rating": 5
+  },
+  {
+    "id": "3",
+    "name": "Priya Sharma",
+    "role": "Product Manager",
+    "company": "TechCorp Ltd",
+    "content": "Working with Nigel is effortless. He understands the product vision, asks the right questions, and delivers exactly what's needed — usually faster than expected.",
+    "rating": 5
+  },
+  {
+    "id": "4",
+    "name": "Marcus Webb",
+    "role": "Lead Engineer",
+    "company": "Consulting Agency",
+    "content": "Nigel's architectural decisions consistently age well. He thinks in systems, not just features. Would jump at the chance to work with him again.",
+    "rating": 5
+  },
+  {
+    "id": "5",
+    "name": "Aisha Patel",
+    "role": "CEO",
+    "company": "FinTech Startup",
+    "content": "We engaged Nigel for a 3-month contract and extended twice. He built our core document processing pipeline and it's been rock solid since day one.",
+    "rating": 5
+  }
+]
