@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function generateId(): string {
-  return Math.random().toString(36).slice(2, 11);
+  return crypto.randomUUID();
 }
 
 export function detectComponent(content: string): ComponentType {

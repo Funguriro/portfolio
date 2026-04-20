@@ -1,11 +1,11 @@
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import ChatInterface from "@/components/ChatInterface";
-import ReviewsSlider from "@/components/ReviewsSlider";
-import GitHubSection from "@/components/GitHubSection";
-import Footer from "@/components/Footer";
-import FloatingCTA from "@/components/FloatingCTA";
-import ScrollToTop from "@/components/ScrollToTop";
+import Navbar from "@/components/ui/Navbar";
+import Hero from "@/components/sections/Hero";
+import ChatInterface from "@/components/chat/ChatInterface";
+import ReviewsSlider from "@/components/sections/ReviewsSlider";
+import GitHubSection from "@/components/sections/GitHubSection";
+import Footer from "@/components/sections/Footer";
+import FloatingCTA from "@/components/ui/FloatingCTA";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 
 export default function Home() {
   return (

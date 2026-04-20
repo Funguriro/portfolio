@@ -18,14 +18,6 @@ function formatProjects(): string {
   return list.join("\n\n");
 }
 
-function formatTimeline(): string {
-  return timeline
-    .map(
-      (t) =>
-        `**${t.title}** at ${t.company} _(${t.period})_\n${t.description}`
-    )
-    .join("\n\n");
-}
 
 function formatSkills(): string {
   const cats = [...new Set(skills.map((s) => s.category))];
@@ -86,7 +78,7 @@ function respond(query: string, history: Message[]): string {
   }
 
   if (askContact) {
-    return `The best ways to reach me:\n\n- **WhatsApp:** [Send a message](https://wa.me/${profile.whatsapp})\n- **Calendly:** [Book a call](${profile.calendly})\n- **Email:** ${profile.email}\n\nI'm always open to interesting conversations — feel free to reach out.`;
+    return `The best ways to reach me:\n\n- **WhatsApp:** [Send a message](https://wa.me/${profile.contact.whatsapp})\n- **Calendly:** [Book a call](${profile.contact.calendly})\n- **Email:** ${profile.contact.email}\n\nI'm always open to interesting conversations — feel free to reach out.`;
   }
 
   if (askLocation) {
@@ -94,7 +86,7 @@ function respond(query: string, history: Message[]): string {
   }
 
   if (askLinkedIn) {
-    return `You can find me on LinkedIn at [${profile.linkedin}](${profile.linkedin}). I share insights on AI, engineering, and software development there.`;
+    return `You can find me on LinkedIn at [linkedin.com/in/amonigel](${profile.social.linkedin}). I share insights on AI, engineering, and software development there.`;
   }
 
   if (askPassion) {

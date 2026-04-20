@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { config } from "@/lib/config";
 
 export const revalidate = 3600; // cache 1 hour
 
@@ -12,8 +13,7 @@ interface GoogleReview {
 }
 
 export async function GET() {
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
-  const placeId = process.env.GOOGLE_PLACE_ID;
+  const { placesApiKey: apiKey, placeId } = config.google;
 
   if (!apiKey || !placeId) {
     return NextResponse.json({ reviews: [], rating: null, total: null });

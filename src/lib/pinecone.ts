@@ -1,19 +1,17 @@
 import { Pinecone } from "@pinecone-database/pinecone";
+import { config } from "@/lib/config";
 
 let pineconeClient: Pinecone | null = null;
 
 export function getPineconeClient(): Pinecone {
   if (!pineconeClient) {
-    pineconeClient = new Pinecone({
-      apiKey: process.env.PINECONE_API_KEY!,
-    });
+    pineconeClient = new Pinecone({ apiKey: config.pinecone.apiKey });
   }
   return pineconeClient;
 }
 
 export function getPineconeIndex() {
-  const client = getPineconeClient();
-  return client.index(process.env.PINECONE_INDEX_NAME || "portfolio-knowledge");
+  return getPineconeClient().index(config.pinecone.indexName);
 }
 
 export async function upsertVectors(

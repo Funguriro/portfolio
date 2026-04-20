@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateEmbeddings } from "@/lib/openai";
 import { upsertVectors } from "@/lib/pinecone";
 import { chunkText } from "@/lib/utils";
+import { config } from "@/lib/config";
 import { readFileSync, readdirSync } from "fs";
 import path from "path";
 
@@ -11,9 +12,8 @@ export const maxDuration = 60;
 export async function POST(req: NextRequest) {
   try {
     const authHeader = req.headers.get("authorization");
-    const adminSecret = process.env.ADMIN_SECRET || "dev-secret";
 
-    if (authHeader !== `Bearer ${adminSecret}`) {
+    if (authHeader !== `Bearer ${config.admin.secret}`) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

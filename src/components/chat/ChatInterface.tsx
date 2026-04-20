@@ -2,11 +2,11 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Mic, ChevronRight } from "lucide-react";
+import { Send, ChevronRight } from "lucide-react";
 import { Message, ComponentType } from "@/types";
 import { generateId, detectComponent } from "@/lib/utils";
-import ChatMessage from "./ChatMessage";
-import TypingIndicator from "./TypingIndicator";
+import ChatMessage from "@/components/chat/ChatMessage";
+import TypingIndicator from "@/components/chat/TypingIndicator";
 
 const GREETING_CONTENT =
   "Hello, my name is Nigel. What would you like to know about me? I can tell you about my projects, experience, skills, or anything else you're curious about. 🙂";

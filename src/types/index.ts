@@ -4,7 +4,6 @@ export interface Message {
   content: string;
   timestamp: Date;
   component?: ComponentType;
-  componentData?: unknown;
 }
 
 export type ComponentType =
@@ -56,22 +55,15 @@ export interface Profile {
   tagline: string;
   bio: string;
   location: string;
-  email: string;
-  linkedin: string;
-  github: string;
-  whatsapp: string;
-  calendly: string;
   avatar: string;
+  contact: {
+    email: string;
+    whatsapp: string;
+    calendly: string;
+  };
+  social: {
+    linkedin: string;
+    github: string;
+  };
 }
 
-export interface ChatRequest {
-  messages: { role: string; content: string }[];
-  sessionId?: string;
-}
-
-export interface RAGChunk {
-  id: string;
-  text: string;
-  metadata: Record<string, string>;
-  score?: number;
-}

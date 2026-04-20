@@ -3,10 +3,14 @@
   "tagline": "Full Stack Engineer | AI Researcher",
   "bio": "I build things at the intersection of great engineering and thoughtful design. Passionate about AI, scalable systems, and products that genuinely help people.",
   "location": "Washington DC, USA",
-  "email": "hello@amonigel.com",
-  "linkedin": "https://linkedin.com/in/amonigel",
-  "github": "Funguriro",
-  "whatsapp": "12272492922",
-  "calendly": "https://calendly.com/amonigel",
-  "avatar": "/avatar.jpeg"
+  "avatar": "/avatar.jpeg",
+  "contact": {
+    "email": "hello@amonigel.com",
+    "whatsapp": "12272492922",
+    "calendly": "https://calendly.com/amonigel"
+  },
+  "social": {
+    "linkedin": "https://linkedin.com/in/amonigel",
+    "github": "Funguriro"
+  }
 }

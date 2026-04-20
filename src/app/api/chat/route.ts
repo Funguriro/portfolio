@@ -1,14 +1,12 @@
 import { NextRequest } from "next/server";
 import { streamChatResponse } from "@/lib/rag";
 import { localChatResponse } from "@/lib/localChat";
+import { config } from "@/lib/config";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
 
-const hasOpenAI =
-  !!process.env.OPENAI_API_KEY &&
-  !process.env.OPENAI_API_KEY.startsWith("sk-YOUR") &&
-  process.env.OPENAI_API_KEY !== "your_openai_api_key_here";
+const hasOpenAI = config.openai.isConfigured;
 
 function sseStream(text: string): Response {
   const encoder = new TextEncoder();
@@ -89,7 +87,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: unknown) {
     // OpenAI failed — fall back to local rather than showing an error
-    console.error("OpenAI error, falling back to local:", error);
     const reply = localChatResponse(messages);
     return sseStream(reply);
   }

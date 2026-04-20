@@ -20,10 +20,10 @@ export default function Footer() {
             </p>
             <h3 className="text-xl font-light text-[var(--foreground)]">{profileData.name}</h3>
             <a
-              href={`mailto:${profileData.email}`}
+              href={`mailto:${profileData.contact.email}`}
               className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors mt-1 block"
             >
-              {profileData.email}
+              {profileData.contact.email}
             </a>
           </motion.div>
 
@@ -35,7 +35,7 @@ export default function Footer() {
             className="flex items-center gap-4"
           >
             <a
-              href={profileData.linkedin}
+              href={profileData.social.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="w-9 h-9 border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-all"
@@ -44,7 +44,7 @@ export default function Footer() {
               <Link size={15} />
             </a>
             <a
-              href={`https://github.com/${profileData.github}`}
+              href={`https://github.com/${profileData.social.github}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-9 h-9 border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-all"
@@ -53,7 +53,7 @@ export default function Footer() {
               <GitFork size={15} />
             </a>
             <a
-              href={`mailto:${profileData.email}`}
+              href={`mailto:${profileData.contact.email}`}
               className="w-9 h-9 border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-all"
               aria-label="Email"
             >

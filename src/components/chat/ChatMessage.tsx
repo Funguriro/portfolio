@@ -5,9 +5,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Message } from "@/types";
 import { formatDate } from "@/lib/utils";
-import ProjectCards from "./ProjectCards";
-import Timeline from "./Timeline";
-import SkillsGraph from "./SkillsGraph";
+import ProjectCards from "@/components/chat/widgets/ProjectCards";
+import Timeline from "@/components/chat/widgets/Timeline";
+import SkillsGraph from "@/components/chat/widgets/SkillsGraph";
 
 interface Props {
   message: Message;

@@ -5,7 +5,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { ArrowDown } from "lucide-react";
 import profileData from "@/data/profile.json";
-import NeuralBackground from "./NeuralBackground";
+import NeuralBackground from "@/components/background/NeuralBackground";
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -110,7 +110,7 @@ export default function Hero() {
                 Ask me anything
               </a>
               <a
-                href={profileData.linkedin}
+                href={profileData.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="animate-rgb-border px-6 py-3 border-2 border-transparent text-[var(--foreground)] text-sm tracking-widest uppercase transition-colors"

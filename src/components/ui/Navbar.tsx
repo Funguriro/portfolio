@@ -2,7 +2,7 @@
 
 import { motion, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 import profileData from "@/data/profile.json";
 
 export default function Navbar() {
@@ -19,7 +19,6 @@ export default function Navbar() {
         scrolled ? "bg-[var(--background)]/90 border-b border-[var(--border)]" : "bg-transparent"
       }`}
     >
-      <div />
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <motion.a
           href="#about"

@@ -14,8 +14,8 @@ export default function FloatingCTA() {
     return () => clearTimeout(timer);
   }, []);
 
-  const whatsappUrl = `https://wa.me/${profileData.whatsapp}`;
-  const calendlyUrl = profileData.calendly;
+  const whatsappUrl = `https://wa.me/${profileData.contact.whatsapp}`;
+  const calendlyUrl = profileData.contact.calendly;
 
   return (
     <AnimatePresence>
