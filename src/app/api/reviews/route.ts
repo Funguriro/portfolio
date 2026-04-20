@@ -25,12 +25,20 @@ export async function GET() {
       { next: { revalidate: 3600 } }
     );
 
-    if (!res.ok) throw new Error(`Places API ${res.status}`);
+    if (!res.ok) {
+      return NextResponse.json(
+        { reviews: [], rating: null, total: null, error: `HTTP ${res.status}` },
+        { status: 502 }
+      );
+    }
 
     const data = await res.json();
 
     if (data.status !== "OK") {
-      throw new Error(`Places API status: ${data.status}`);
+      return NextResponse.json(
+        { reviews: [], rating: null, total: null, error: `Places API: ${data.status}`, detail: data.error_message ?? null },
+        { status: 502 }
+      );
     }
 
     const result = data.result;
@@ -51,7 +59,9 @@ export async function GET() {
       total: result.user_ratings_total,
     });
   } catch (err) {
-    console.error("Google Places error:", err);
-    return NextResponse.json({ reviews: [], rating: null, total: null });
+    return NextResponse.json(
+      { reviews: [], rating: null, total: null, error: String(err) },
+      { status: 500 }
+    );
   }
 }

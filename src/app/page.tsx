@@ -1,5 +1,8 @@
 import Navbar from "@/components/ui/Navbar";
 import Hero from "@/components/sections/Hero";
+import ServicesSection from "@/components/sections/ServicesSection";
+import InfluencersSlider from "@/components/sections/InfluencersSlider";
+import CorporatesSection from "@/components/sections/CorporatesSection";
 import ChatInterface from "@/components/chat/ChatInterface";
 import ReviewsSlider from "@/components/sections/ReviewsSlider";
 import GitHubSection from "@/components/sections/GitHubSection";
@@ -12,8 +15,11 @@ export default function Home() {
     <main className="flex flex-col min-h-screen">
       <Navbar />
       <Hero />
-      <ChatInterface />
+      <ServicesSection />
+      <InfluencersSlider />
+      <CorporatesSection />
       <ReviewsSlider />
+      <ChatInterface />
       <GitHubSection />
       <Footer />
       <FloatingCTA />
