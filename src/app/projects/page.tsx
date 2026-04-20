@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   ArrowLeft, ArrowRight, Shield, Globe, Clock,
   Building2, Brain, Lock, ExternalLink, ChevronDown,
-  Fingerprint, Server, BarChart3, Smartphone,
+  Fingerprint, Server, BarChart3, Smartphone, Cpu,
 } from "lucide-react";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/sections/Footer";
@@ -68,7 +68,7 @@ const STATS = [
   { value: "0",    label: "Projects\nAbandoned",        dot: "bg-amber-400"   },
 ];
 
-type Status = "production" | "deployed" | "classified" | "research" | "live";
+type Status = "production" | "deployed" | "classified" | "research" | "live" | "active";
 
 interface Project {
   id: string;
@@ -87,6 +87,20 @@ interface Project {
 }
 
 const FEATURED_PROJECTS: Project[] = [
+  {
+    id: "avatar",
+    title: "Adaptive Emotion-Aware Multimodal AI Avatar",
+    client: "The Catholic University of America",
+    period: "2024 — Present",
+    category: "AI Research · Affective Computing · Multimodal AI",
+    status: "active",
+    icon: Cpu,
+    color: "bg-sky-400",
+    summary: "Developing a human-centered multimodal AI avatar capable of interacting through speech and text, while generating emotionally adaptive and context-aware responses expressed via voice and facial animation — extending toward next-generation intelligent avatars relevant to NVIDIA platforms.",
+    detail: "Unlike conventional AI avatars, this system introduces a novel emotional memory and reasoning layer that enables the avatar to detect user emotions from multimodal inputs (text and speech), track emotional patterns over time, and adapt responses based on both current and historical emotional states. The architecture fuses large language models with affective computing, real-time speech processing, and procedural facial animation — creating an avatar that does not just respond, but genuinely understands the emotional context of a conversation. This research aligns with and extends work in multimodal interactive AI and affective human-AI interaction explored by Professor Hanseok Ko and Jun, with direct relevance to NVIDIA's emerging intelligent avatar platforms.",
+    impact: "Advancing the frontier of human-AI interaction through emotionally intelligent, memory-aware avatar systems — bridging academic research and production-grade AI deployment.",
+    stack: ["PyTorch", "LLMs", "Speech Recognition", "Affective Computing", "Facial Animation", "Multimodal AI", "Emotion Detection", "Memory & Reasoning", "Python", "NVIDIA"],
+  },
   {
     id: "payroll",
     title: "Enterprise Payroll Management System",
@@ -233,6 +247,7 @@ const MORE_PROJECTS: {
 ];
 
 const STATUS_CONFIG: Record<Status, { label: string; dot: string; text: string }> = {
+  active:     { label: "In Progress",    dot: "bg-sky-400",     text: "text-sky-400"     },
   production: { label: "In Production",  dot: "bg-emerald-400", text: "text-emerald-400" },
   deployed:   { label: "Deployed",       dot: "bg-sky-400",     text: "text-sky-400"     },
   classified: { label: "Classified",     dot: "bg-rose-400",    text: "text-rose-400"    },

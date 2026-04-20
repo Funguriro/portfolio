@@ -40,9 +40,21 @@ const CORE_SERVICES = [
 ];
 
 const MINOR_SERVICES = [
-  { icon: Users,      label: "Social Media Influencer Management" },
-  { icon: Music,      label: "Artist Management"                  },
-  { icon: Headphones, label: "Tech Support for Social Platforms"  },
+  {
+    icon: Users,
+    label: "Social Media Influencer Management",
+    desc:  "Full-service management of creator brands — strategy, scheduling, growth, monetisation, and cross-platform audience development.",
+  },
+  {
+    icon: Music,
+    label: "Artist Management",
+    desc:  "Digital presence, release planning, playlist pitching, and online brand building for musicians and performing artists.",
+  },
+  {
+    icon: Headphones,
+    label: "Tech Support for Social Platforms",
+    desc:  "Account setup, troubleshooting, security, monetisation activation, and platform optimisation for multi-channel creators.",
+  },
 ];
 
 const container = {
@@ -210,27 +222,30 @@ export default function ServicesSection() {
 
         {/* Additional services label */}
         <motion.div
-          initial={{ opacity: 0, x: -16 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="flex items-center gap-4 mt-10 mb-4"
+          className="mt-14 mb-6"
         >
-          <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--muted)] flex items-center gap-2">
-            <motion.span
-              className="inline-block w-1 h-1 rounded-full bg-[var(--muted)]"
-              animate={{ opacity: [1, 0.2, 1] }}
-              transition={{ duration: 1.6, repeat: Infinity }}
+          <div className="flex items-center gap-4 mb-3">
+            <span className="text-xs tracking-[0.3em] uppercase text-[var(--foreground)] flex items-center gap-2 font-light">
+              <motion.span
+                className="inline-block w-1.5 h-1.5 rounded-full bg-amber-400"
+                animate={{ opacity: [1, 0.2, 1], scale: [1, 1.5, 1] }}
+                transition={{ duration: 1.8, repeat: Infinity }}
+              />
+              Additional services
+            </span>
+            <motion.div
+              className="flex-1 h-px bg-[var(--border)] origin-left"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             />
-            Additional services
-          </span>
-          <motion.div
-            className="flex-1 h-px bg-[var(--border)] origin-left"
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          />
+          </div>
+          <p className="text-[11px] text-[var(--muted)] font-light">Beyond software — creative and platform services for the creator economy.</p>
         </motion.div>
 
         {/* Minor services */}
@@ -239,14 +254,14 @@ export default function ServicesSection() {
           variants={minorContainer}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.2 }}
         >
-          {MINOR_SERVICES.map(({ icon: Icon, label }) => (
+          {MINOR_SERVICES.map(({ icon: Icon, label, desc }) => (
             <motion.div
               key={label}
               variants={item}
-              whileHover={{ y: -3, transition: { type: "spring", stiffness: 300 } }}
-              className="group bg-[var(--background)] px-8 py-6 flex items-center gap-4 cursor-default relative overflow-hidden"
+              whileHover={{ y: -4, transition: { type: "spring", stiffness: 300 } }}
+              className="group bg-[var(--background)] p-7 flex flex-col gap-4 cursor-default relative overflow-hidden"
             >
               <motion.div
                 className="absolute left-0 top-0 bottom-0 w-px bg-[var(--foreground)] origin-top"
@@ -254,11 +269,24 @@ export default function ServicesSection() {
                 whileHover={{ scaleY: 1 }}
                 transition={{ duration: 0.25 }}
               />
-              <div className="w-8 h-8 border border-[var(--border)] group-hover:border-[var(--foreground)]/40 flex items-center justify-center flex-shrink-0 transition-all duration-300">
-                <Icon size={13} className="text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors duration-300" />
+              <motion.div
+                className="absolute inset-x-0 top-0 h-px bg-amber-400/40 origin-left"
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                transition={{ duration: 0.35 }}
+              />
+              <span className="absolute top-3 right-4 w-3 h-3 border-t border-r border-transparent group-hover:border-[var(--foreground)]/20 transition-all duration-300" />
+              <span className="absolute bottom-3 left-4 w-3 h-3 border-b border-l border-transparent group-hover:border-[var(--foreground)]/20 transition-all duration-300" />
+
+              <div className="w-10 h-10 border border-[var(--border)] group-hover:border-[var(--foreground)]/40 flex items-center justify-center flex-shrink-0 transition-all duration-300">
+                <Icon size={15} className="text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors duration-300" />
               </div>
-              <p className="text-xs font-light text-[var(--muted)] group-hover:text-[var(--foreground)] transition-colors duration-300 leading-snug">
-                {label}
+              <div>
+                <p className="text-sm font-light text-[var(--foreground)] leading-snug mb-2">{label}</p>
+                <p className="text-xs text-[var(--muted)] leading-relaxed font-light">{desc}</p>
+              </div>
+              <p className="text-[10px] tracking-widest uppercase text-[var(--muted)] mt-auto pt-4 border-t border-[var(--border)] group-hover:text-[var(--foreground)]/50 transition-colors">
+                From $50 / hr
               </p>
             </motion.div>
           ))}

@@ -205,10 +205,10 @@ export default function InfluencersSlider() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.45 }}
-              className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-0 border border-[var(--border)]"
+              className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-0 border border-[var(--border)] max-w-3xl mx-auto"
             >
               {/* Photo */}
-              <div className="relative w-full lg:w-80 aspect-[3/4] lg:aspect-auto overflow-hidden bg-[var(--card)] flex-shrink-0">
+              <div className="relative w-full lg:w-56 aspect-[3/4] lg:aspect-auto overflow-hidden bg-[var(--card)] flex-shrink-0">
                 {current.photo ? (
                   <Image
                     src={current.photo}
@@ -234,12 +234,12 @@ export default function InfluencersSlider() {
               </div>
 
               {/* Info */}
-              <div className="p-10 lg:p-14 flex flex-col justify-between gap-8 bg-[var(--background)]">
+              <div className="p-7 lg:p-9 flex flex-col justify-between gap-5 bg-[var(--background)]">
                 <div>
                   <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--muted)] mb-4">
                     {current.title}
                   </p>
-                  <h3 className="text-4xl lg:text-5xl font-light text-[var(--foreground)] leading-none mb-8">
+                  <h3 className="text-2xl lg:text-3xl font-light text-[var(--foreground)] leading-none mb-5">
                     {current.name}
                   </h3>
                   <p className="text-sm text-[var(--muted)] leading-relaxed font-light max-w-lg">

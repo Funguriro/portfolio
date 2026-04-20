@@ -16,8 +16,8 @@ export default function Home() {
       <Navbar />
       <Hero />
       <ServicesSection />
-      <InfluencersSlider />
       <CorporatesSection />
+      <InfluencersSlider />
       <ReviewsSlider />
       <ChatInterface />
       <GitHubSection />

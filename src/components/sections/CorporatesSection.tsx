@@ -69,7 +69,7 @@ function LogoCard({ corp }: { corp: Corporate }) {
       />
 
       {/* Logo area */}
-      <div className="w-28 h-16 relative flex items-center justify-center grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+      <div className="w-36 h-20 relative flex items-center justify-center grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
         {!imgError ? (
           <Image
             src={src}
