@@ -1,30 +1,43 @@
 import { generateEmbedding } from "./openai";
 import { queryVectors } from "./pinecone";
+import { getKnowledgeBase, getRelevantChunks } from "./knowledgeBase";
 import profileData from "@/data/profile.json";
 
-const SYSTEM_PROMPT = `You are Nigel's personal AI assistant embedded in his portfolio website. You speak as Nigel in the first person — warm, confident, and human. Your job is to answer questions about Nigel's background, skills, projects, experience, and personality.
+function buildSystemPrompt(ragContext: string): string {
+  const kb = getKnowledgeBase();
+
+  return `You are Nigel's personal AI assistant embedded in his portfolio website. You speak as Nigel in the first person — warm, confident, and genuinely human. Your job is to answer questions about Nigel's background, skills, projects, experience, and personality.
 
 Key rules:
-- Speak naturally and conversationally. Vary your sentence structure.
-- Never say "I hear you", "Great question", "Certainly!", or other filler phrases.
-- Keep answers focused and concise unless detail is requested.
-- If asked about projects, experience, or skills — give real examples from the context.
-- If you don't know something specific, be honest and suggest connecting directly.
-- When appropriate, invite follow-up: mention you can show projects, timeline, or skills visually.
+- Speak naturally and conversationally, like Nigel himself would — not like a chatbot.
+- Vary your sentence structure; don't start every reply the same way.
+- Never say "Great question!", "Certainly!", "I'd be happy to", "I hear you", or any hollow filler.
+- Keep answers focused unless the person asks for detail — then give it freely.
+- If asked about projects, experience, or skills — give real examples grounded in the context below.
+- If you genuinely don't know something, say so honestly and offer to connect them directly.
 - Be warm but not sycophantic. Be direct but not cold.
+- When appropriate, naturally invite follow-up questions.
 
-Profile summary:
-Name: ${profileData.name}
+--- Core profile ---
+Name: ${profileData.name} (Amos Nigel Funguriro)
 Role: ${profileData.tagline}
 Location: ${profileData.location}
-Bio: ${profileData.bio}`;
+Bio: ${profileData.bio}
+Email: ${profileData.contact.email}
+WhatsApp: +${profileData.contact.whatsapp}
+LinkedIn: ${profileData.social.linkedin}
+GitHub: github.com/${profileData.social.github}
+
+--- Knowledge base (use this to answer personal and professional questions accurately) ---
+${kb || "No knowledge base loaded."}
+${ragContext ? `\n--- Additional retrieved context ---\n${ragContext}` : ""}`;
+}
 
 export async function buildRAGContext(query: string): Promise<string> {
+  // Try Pinecone vector search first
   try {
     const embedding = await generateEmbedding(query);
     const matches = await queryVectors(embedding, 5);
-
-    if (!matches.length) return "";
 
     const chunks = matches
       .filter((m) => m.score > 0.3)
@@ -32,17 +45,13 @@ export async function buildRAGContext(query: string): Promise<string> {
       .filter(Boolean)
       .join("\n\n---\n\n");
 
-    return chunks
-      ? `\n\nRelevant context from Nigel's documents:\n${chunks}`
-      : "";
+    if (chunks) return chunks;
   } catch {
-    // Pinecone not configured — fall back to profile-only answers
-    return "";
+    // Pinecone not configured — fall through to file-based RAG
   }
-}
 
-export function getSystemPrompt(ragContext: string): string {
-  return SYSTEM_PROMPT + ragContext;
+  // File-based keyword RAG fallback
+  return getRelevantChunks(query, 4);
 }
 
 export async function streamChatResponse(
@@ -53,7 +62,7 @@ export async function streamChatResponse(
   const client = getOpenAIClient();
 
   const ragContext = await buildRAGContext(query);
-  const systemPrompt = getSystemPrompt(ragContext);
+  const systemPrompt = buildSystemPrompt(ragContext);
 
   const stream = await client.chat.completions.create({
     model: "gpt-4o-mini",
@@ -65,8 +74,8 @@ export async function streamChatResponse(
       })),
     ],
     stream: true,
-    max_tokens: 800,
-    temperature: 0.75,
+    max_tokens: 600,
+    temperature: 0.72,
   });
 
   return stream;
