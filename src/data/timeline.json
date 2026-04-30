@@ -1,34 +1,54 @@
 [
   {
-    "id": "1",
-    "title": "Senior Full-Stack Engineer",
-    "company": "TechCorp Ltd",
-    "period": "2022 – Present",
-    "description": "Leading a team of 5 engineers building AI-powered SaaS products. Architected the core platform serving 200k+ users.",
-    "type": "work"
+    "id": "freelance",
+    "year": "2016",
+    "period": "2016 — 2018",
+    "role": "Freelance Web Developer",
+    "company": "Self-Employed · Undergraduate",
+    "location": "Zimbabwe",
+    "type": "work",
+    "tags": ["HTML/CSS", "JavaScript", "PHP", "WordPress", "Client Relations"],
+    "summary": "Started building websites for local businesses while pursuing an undergraduate degree — learning not just code but how to listen to a client, translate their vision into a digital product, and deliver work that exceeded expectations.",
+    "detail": "Those early years forged a discipline carried into every engagement. Over 100 clients later, most of my work still comes from referrals — because the best marketing is a client who won't stop talking about what you built for them.",
+    "highlight": "First 20+ clients. 100% referral growth."
   },
   {
-    "id": "2",
-    "title": "Full-Stack Developer",
-    "company": "StartupXYZ",
-    "period": "2020 – 2022",
-    "description": "Built the company's first product from zero to Series A. Owned the entire frontend, API, and DevOps infrastructure.",
-    "type": "work"
+    "id": "softrite",
+    "year": "2018",
+    "period": "2018 — 2023",
+    "role": "Software Engineer — Payroll Systems",
+    "company": "Softrite Payroll Systems",
+    "location": "Zimbabwe",
+    "type": "work",
+    "tags": ["Java", "SQL", "System Architecture", "Enterprise SaaS", "Payroll Logic", "HR Tech"],
+    "summary": "Engineered the backbone of payroll infrastructure used by organisations across Zimbabwe — including government institutions, banks, and private sector enterprises. Mission-critical software where precision is not optional.",
+    "detail": "Working in enterprise fintech taught me to build with precision, document with discipline, and think in systems. Simultaneously ran a parallel track — continuing web development contracts, influencer management, and corporate digital consulting. Became fluent in context-switching between deep technical work and client-facing strategy.",
+    "highlight": "5-year enterprise build. Zero payroll errors in production."
   },
   {
-    "id": "3",
-    "title": "Software Engineer",
-    "company": "Consulting Agency",
-    "period": "2018 – 2020",
-    "description": "Delivered bespoke web platforms for 15+ clients across fintech, healthcare, and retail sectors.",
-    "type": "work"
+    "id": "consulting",
+    "year": "2021",
+    "period": "2021 — 2023",
+    "role": "Independent Digital Consultant & Full Stack Engineer",
+    "company": "Self-Employed · Consulting",
+    "location": "Zimbabwe & Remote",
+    "type": "work",
+    "tags": ["Next.js", "React", "Node.js", "Digital Strategy", "Influencer Management", "Corporate Advisory"],
+    "summary": "Expanded beyond product engineering into strategic digital consulting — partnering with corporates like Quest Financial Services, FBC Bank, the Government of Zimbabwe, African Sun Hotels, Mahindra Zimbabwe, and more.",
+    "detail": "Simultaneously stepped into artist and influencer management, growing social media presence for prominent Zimbabwean creators. This dual-track work — technical and human — reinforced a belief held deeply: the best engineers are also great communicators.",
+    "highlight": "11+ corporate clients. Multi-industry reach."
   },
   {
-    "id": "4",
-    "title": "BSc Computer Science",
-    "company": "University of London",
-    "period": "2014 – 2018",
-    "description": "First-class honours. Dissertation on distributed systems and consensus algorithms. Active in hackathon culture.",
-    "type": "education"
+    "id": "cua",
+    "year": "2023",
+    "period": "2023 — Present",
+    "role": "AI Researcher & Graduate Student",
+    "company": "The Catholic University of America",
+    "location": "Washington, DC",
+    "type": "work",
+    "tags": ["Computer Vision", "PyTorch", "LLMs", "RAG", "AI Agents", "Real-time ML", "Data Analytics", "Research"],
+    "summary": "Moved to Washington DC to pursue graduate studies in Data Analytics — with a real focus on building at the frontier of AI: computer vision, real-time machine learning, and intelligent systems.",
+    "detail": "Not just studying AI — actively building with it: designing RAG-powered applications, training custom vision models, deploying autonomous AI agents, and applying the full stack of modern AI (LLMs, vector embeddings, multimodal systems) to real-world problems. Every line of research connects back to tangible, deployable impact.",
+    "highlight": "Graduate research · Frontier AI systems."
   }
 ]

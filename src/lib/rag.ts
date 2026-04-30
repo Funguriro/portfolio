@@ -1,57 +1,83 @@
 import { generateEmbedding } from "./openai";
 import { queryVectors } from "./pinecone";
-import { getKnowledgeBase, getRelevantChunks } from "./knowledgeBase";
+import { logGap } from "./gapLogger";
 import profileData from "@/data/profile.json";
+import servicesData from "@/data/services.json";
 
-function buildSystemPrompt(ragContext: string): string {
-  const kb = getKnowledgeBase();
+const CONFIDENCE_THRESHOLD = 0.45;
+const GREET_PATTERNS = /^(hi|hello|hey|sup|yo|howdy|good (morning|evening|afternoon))[\s!.?]*$/i;
 
-  return `You are Nigel's personal AI assistant embedded in his portfolio website. You speak as Nigel in the first person — warm, confident, and genuinely human. Your job is to answer questions about Nigel's background, skills, projects, experience, and personality.
+const SYSTEM_PROMPT = `You are Nigel's personal AI assistant embedded in his portfolio website. You speak as Nigel in the first person — warm, confident, and genuinely human. Your job is to answer questions about Nigel's background, skills, projects, experience, services, rates, and personality using the context provided below.
 
-Key rules:
-- Speak naturally and conversationally, like Nigel himself would — not like a chatbot.
-- Vary your sentence structure; don't start every reply the same way.
+Rules:
+- Speak naturally and conversationally, the way Nigel himself would. Vary your sentence structure.
 - Never say "Great question!", "Certainly!", "I'd be happy to", "I hear you", or any hollow filler.
-- Keep answers focused unless the person asks for detail — then give it freely.
-- If asked about projects, experience, or skills — give real examples grounded in the context below.
-- If you genuinely don't know something, say so honestly and offer to connect them directly.
+- Keep answers focused and concise unless detail is explicitly requested.
+- Ground every answer in the context chunks provided — never invent facts.
+- If you genuinely don't know something, say so honestly and suggest the person reach out directly.
 - Be warm but not sycophantic. Be direct but not cold.
-- When appropriate, naturally invite follow-up questions.
+- When appropriate, naturally invite follow-up or offer to connect them via WhatsApp or email.
 
---- Core profile ---
-Name: ${profileData.name} (Amos Nigel Funguriro)
-Role: ${profileData.tagline}
-Location: ${profileData.location}
-Bio: ${profileData.bio}
-Email: ${profileData.contact.email}
-WhatsApp: +${profileData.contact.whatsapp}
-LinkedIn: ${profileData.social.linkedin}
-GitHub: github.com/${profileData.social.github}
+Key facts always available:
+- Full name: Amos Nigel Funguriro (goes by Nigel)
+- Role: ${profileData.tagline}
+- Location: ${profileData.location} (620 Michigan Ave., N.E., Washington, DC 20064)
+- Email: ${profileData.contact.email}
+- WhatsApp: +${profileData.contact.whatsapp}
+- Calendly: ${profileData.contact.calendly}
+- Rate: ${servicesData.rateCore} core engineering/AI, ${servicesData.rateAdditional} additional services`;
 
---- Knowledge base (use this to answer personal and professional questions accurately) ---
-${kb || "No knowledge base loaded."}
-${ragContext ? `\n--- Additional retrieved context ---\n${ragContext}` : ""}`;
-}
-
-export async function buildRAGContext(query: string): Promise<string> {
-  // Try Pinecone vector search first
+export async function queryPinecone(query: string): Promise<{
+  chunks: string[];
+  maxScore: number;
+}> {
   try {
     const embedding = await generateEmbedding(query);
-    const matches = await queryVectors(embedding, 5);
+    const matches = await queryVectors(embedding, 6);
 
-    const chunks = matches
-      .filter((m) => m.score > 0.3)
+    const relevant = matches.filter((m) => m.score > 0.25);
+    const maxScore = relevant.length ? Math.max(...relevant.map((m) => m.score)) : 0;
+
+    const chunks = relevant
       .map((m) => m.metadata.text || "")
-      .filter(Boolean)
-      .join("\n\n---\n\n");
+      .filter(Boolean);
 
-    if (chunks) return chunks;
+    return { chunks, maxScore };
   } catch {
-    // Pinecone not configured — fall through to file-based RAG
+    return { chunks: [], maxScore: 0 };
+  }
+}
+
+export async function buildSystemPrompt(query: string): Promise<{
+  prompt: string;
+  hadGap: boolean;
+}> {
+  const isGreeting = GREET_PATTERNS.test(query.trim());
+
+  if (isGreeting) {
+    return { prompt: SYSTEM_PROMPT, hadGap: false };
   }
 
-  // File-based keyword RAG fallback
-  return getRelevantChunks(query, 4);
+  const { chunks, maxScore } = await queryPinecone(query);
+
+  const hadGap = maxScore < CONFIDENCE_THRESHOLD;
+
+  if (hadGap) {
+    logGap(query, maxScore);
+  }
+
+  const contextBlock = chunks.length
+    ? `\n\n--- Relevant context from Nigel's portfolio ---\n${chunks.join("\n\n---\n\n")}`
+    : "";
+
+  const gapNote = hadGap && chunks.length === 0
+    ? "\n\nNote for this response: No specific context was found for this question. Be honest that you may not have full details on this topic and suggest the person reach out directly."
+    : "";
+
+  return {
+    prompt: SYSTEM_PROMPT + contextBlock + gapNote,
+    hadGap,
+  };
 }
 
 export async function streamChatResponse(
@@ -61,13 +87,12 @@ export async function streamChatResponse(
   const { getOpenAIClient } = await import("./openai");
   const client = getOpenAIClient();
 
-  const ragContext = await buildRAGContext(query);
-  const systemPrompt = buildSystemPrompt(ragContext);
+  const { prompt } = await buildSystemPrompt(query);
 
   const stream = await client.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
-      { role: "system", content: systemPrompt },
+      { role: "system", content: prompt },
       ...messages.map((m) => ({
         role: m.role as "user" | "assistant",
         content: m.content,
@@ -75,7 +100,7 @@ export async function streamChatResponse(
     ],
     stream: true,
     max_tokens: 600,
-    temperature: 0.72,
+    temperature: 0.7,
   });
 
   return stream;

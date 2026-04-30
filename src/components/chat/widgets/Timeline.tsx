@@ -36,7 +36,7 @@ export default function Timeline({ inline = false }: { inline?: boolean }) {
               <div className="pb-2 flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2 mb-1">
                   <div>
-                    <h3 className="text-sm font-medium text-[var(--foreground)]">{item.title}</h3>
+                    <h3 className="text-sm font-medium text-[var(--foreground)]">{item.role}</h3>
                     <p className="text-xs text-[var(--muted)]">{item.company}</p>
                   </div>
                   <span className="text-xs text-[var(--muted)] flex-shrink-0 tracking-wide">
@@ -44,7 +44,7 @@ export default function Timeline({ inline = false }: { inline?: boolean }) {
                   </span>
                 </div>
                 <p className="text-xs text-[var(--muted)] leading-relaxed mt-2">
-                  {item.description}
+                  {item.summary}
                 </p>
               </div>
             </motion.div>

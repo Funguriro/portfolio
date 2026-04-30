@@ -17,21 +17,31 @@ export type ComponentType =
 export interface Project {
   id: string;
   title: string;
-  description: string;
+  client: string;
+  period: string;
+  category: string;
+  summary: string;
+  detail?: string;
+  impact?: string;
   tags: string[];
+  status?: string;
+  featured?: boolean;
   github?: string;
   live?: string;
-  image?: string;
-  featured?: boolean;
 }
 
 export interface TimelineItem {
   id: string;
-  title: string;
-  company: string;
+  year: string;
   period: string;
-  description: string;
+  role: string;
+  company: string;
+  location: string;
   type: "work" | "education";
+  tags: string[];
+  summary: string;
+  detail: string;
+  highlight: string;
 }
 
 export interface Skill {

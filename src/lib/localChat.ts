@@ -1,8 +1,13 @@
+/**
+ * localChat.ts — keyword-based fallback when OpenAI is not configured.
+ * Sources all facts from the canonical data files in src/data/.
+ */
+
 import profile from "@/data/profile.json";
-import projects from "@/data/projects.json";
-import timeline from "@/data/timeline.json";
-import skills from "@/data/skills.json";
-import { getRelevantChunks } from "@/lib/knowledgeBase";
+import projectsData from "@/data/projects.json";
+import timelineData from "@/data/timeline.json";
+import skillsData from "@/data/skills.json";
+import servicesData from "@/data/services.json";
 
 type Message = { role: string; content: string };
 
@@ -12,17 +17,23 @@ function match(text: string, ...keywords: string[]): boolean {
 }
 
 function formatProjects(): string {
-  const featured = projects.filter((p) => p.featured);
-  return featured
-    .map((p) => `**${p.title}**\n${p.description}\n*Stack: ${p.tags.join(", ")}*`)
+  return projectsData
+    .filter((p) => p.featured)
+    .map((p) => `**${p.title}** — ${p.client} (${p.period})\n${p.summary}\nStack: ${p.tags.join(", ")}`)
+    .join("\n\n");
+}
+
+function formatTimeline(): string {
+  return timelineData
+    .map((t) => `**${t.role}** at **${t.company}** _(${t.period})_\n${t.summary}`)
     .join("\n\n");
 }
 
 function formatSkills(): string {
-  const cats = [...new Set(skills.map((s) => s.category))];
+  const cats = [...new Set(skillsData.map((s) => s.category))];
   return cats
     .map((cat) => {
-      const items = skills
+      const items = skillsData
         .filter((s) => s.category === cat)
         .sort((a, b) => b.level - a.level)
         .map((s) => s.name);
@@ -31,113 +42,101 @@ function formatSkills(): string {
     .join("\n");
 }
 
+function formatCoreServices(): string {
+  return servicesData.core
+    .map((s) => `**${s.title}** (${servicesData.rateCore})\n${s.description}`)
+    .join("\n\n");
+}
+
 function respond(query: string, history: Message[]): string {
   const q = query.toLowerCase();
 
-  const isGreeting = match(q, "hello", "hi", "hey", "sup", "yo", "good morning", "good evening", "howdy");
-  const aboutMe = match(q, "who are you", "about you", "tell me about", "yourself", "introduce", "describe yourself");
-  const askProjects = match(q, "project", "built", "portfolio", "show me", "what have you");
-  const askExperience = match(q, "experience", "career", "work history", "job", "worked at", "employment", "timeline", "background");
-  const askSkills = match(q, "skill", "tech", "stack", "language", "framework", "tool", "know how", "expertise", "capable", "proficient");
-  const askContact = match(q, "contact", "reach", "email", "whatsapp", "message", "hire", "available", "book", "meet", "schedule");
-  const askLocation = match(q, "where", "location", "based", "country", "city", "live", "from");
-  const askEducation = match(q, "education", "degree", "university", "studied", "school", "qualification", "cua", "catholic");
-  const askPassion = match(q, "passion", "interest", "hobby", "love", "enjoy", "like to", "outside", "fun", "free time");
-  const askFamily = match(q, "married", "wife", "husband", "family", "daughter", "kids", "children", "personal life");
-  const askAge = match(q, "age", "old", "born", "birthday", "birth", "dob", "how old");
-  const askLinkedIn = match(q, "linkedin", "social", "online profile");
-  const askName = match(q, "name", "full name", "called");
-  const askAI = match(q, "ai avatar", "ai assistant", "emotion", "multimodal", "cua project", "current project", "what are you working on");
-  const askResearch = match(q, "research", "publication", "healthathon", "concordia", "competition");
-  const askRate = match(q, "rate", "price", "cost", "charge", "per hour", "fee", "pricing", "how much");
-
-  if (isGreeting) {
-    return `Hey! I'm Nigel's AI assistant. Ask me anything about his background, projects, skills, or how to get in touch. What's on your mind?`;
+  if (match(q, "hello", "hi", "hey", "sup", "yo", "good morning", "good evening", "howdy")) {
+    return `Hey! I'm Nigel's AI assistant. Ask me anything about his background, projects, skills, services, or how to get in touch. What's on your mind?`;
   }
 
-  if (askName) {
-    return `Full name is **Amos Nigel Funguriro** — though I go by Nigel most of the time. I'm a ${profile.tagline} based in ${profile.location}.`;
+  if (match(q, "name", "full name", "called", "who are you")) {
+    return `Full name is **Amos Nigel Funguriro** — most people call me Nigel. I'm a ${profile.tagline} based in ${profile.location}.`;
   }
 
-  if (askAge) {
-    return `I was born on February 20, 1989. Do the math and you'll know — I'm not shy about it. Life experience tends to make better engineers anyway.`;
+  if (match(q, "age", "old", "born", "birthday", "birth date", "dob")) {
+    return `I was born on **February 20, 1989**. Experience is a feature, not a bug.`;
   }
 
-  if (askFamily) {
-    return `On the personal side — yes, I'm married and have a daughter. Family keeps me grounded. Outside of work you'll usually find me traveling, out with a camera, or exploring somewhere new.`;
+  if (match(q, "married", "wife", "family", "daughter", "kids", "children", "personal life")) {
+    return `On the personal side — yes, I'm married and have a daughter. Family keeps me grounded. Outside of work I enjoy traveling, photography, and exploring new places.`;
   }
 
-  if (askPassion) {
-    return `Outside of code? I love travel, photography, and just exploring — whether that's a new city or a new idea. I also spend a lot of time at DC-area AI and tech events, which keeps me wired in to what's actually happening in the field rather than just what's trending on Twitter.`;
+  if (match(q, "passion", "interest", "hobby", "enjoy", "fun", "free time", "outside work")) {
+    return `Outside of code? Travel, photography, and just exploring — whether that's a new city or a new idea. I also attend DC-area AI and tech events regularly, which keeps me wired in to what's actually happening in the field.`;
   }
 
-  if (askAI) {
-    return `Right now I'm deep in an **Emotion-Aware Multimodal AI Avatar** project at CUA — it's a real-time system that reads facial expressions, voice tone, and body language to adapt its responses emotionally. Built with Python, MediaPipe, and a multimodal LLM stack. It's the most technically challenging thing I've built, and honestly one of the most exciting.`;
+  if (match(q, "ai avatar", "emotion", "multimodal", "current project", "working on")) {
+    const avatar = projectsData.find((p) => p.id === "avatar");
+    if (avatar) {
+      return `Right now I'm deep in the **${avatar.title}** project at CUA.\n\n${avatar.summary}\n\nStack: ${avatar.tags.join(", ")}`;
+    }
   }
 
-  if (askResearch) {
-    return `I've competed in the **CIMAS Healthathon 2021** — an AI innovation challenge in the health space — and more recently **Cardinal Concordia 2025** at CUA. Both pushed me to apply AI thinking under real constraints. Research-wise, I focus on computer vision and real-time ML systems.`;
+  if (match(q, "award", "achievement", "recognition", "healthathon", "concordia", "competition")) {
+    return `I've competed in the **CIMAS Healthathon 2021** — an AI innovation challenge in the health space — and **Cardinal Concordia 2025** at CUA. Both pushed me to apply AI thinking under real constraints.\n\nI also maintain a 100% referral growth record — over 100 clients, most of whom found me through someone I'd already built for.`;
   }
 
-  if (aboutMe) {
-    return `${profile.bio}\n\nI'm based in **${profile.location}**, working as a **${profile.tagline}**. I specialise in AI, computer vision, and full-stack engineering — building systems that work in real-time and at scale.\n\nAsk me about my projects, experience, or anything specific — I'll give you a straight answer.`;
-  }
-
-  if (askProjects) {
+  if (match(q, "project", "built", "portfolio", "show me", "what have you", "case study")) {
     return `Here are some of the projects I'm most proud of:\n\n${formatProjects()}\n\nWant me to go deeper on any of these?`;
   }
 
-  if (askEducation) {
-    const edu = timeline.filter((t) => t.type === "education");
-    if (!edu.length) {
-      return `I'm currently a graduate student in **Data Analytics at The Catholic University of America** in Washington DC. My engineering foundation is built on years of hands-on work rather than just academic theory — I've been doing this professionally since 2016.`;
-    }
-    return edu
-      .map((e) => `**${e.title}** — ${e.company} _(${e.period})_\n${e.description}`)
-      .join("\n\n");
+  if (match(q, "experience", "career", "work history", "job", "worked at", "employment", "timeline", "background")) {
+    return `Here's my career so far:\n\n${formatTimeline()}`;
   }
 
-  if (askExperience) {
-    const work = timeline.filter((t) => t.type === "work");
-    if (!work.length) {
-      return `I've been building software professionally since 2016 — starting with freelance full-stack work, then moving into enterprise SaaS at Softrite, AI consulting, and now research at CUA. Eight years across multiple industries.`;
-    }
-    return `Here's a look at my career so far:\n\n${work.map((t) => `**${t.title}** at **${t.company}** _(${t.period})_\n${t.description}`).join("\n\n")}`;
+  if (match(q, "education", "degree", "university", "studied", "school", "cua", "catholic", "qualification")) {
+    return `I'm currently a **graduate student in Data Analytics at The Catholic University of America** in Washington DC (2023 — Present), focusing on AI, computer vision, and real-time ML systems.\n\nBefore that I built my engineering foundation through 8 years of hands-on professional work — starting with freelance web development in Zimbabwe in 2016.`;
   }
 
-  if (askSkills) {
-    return `Here's a breakdown of my technical skills:\n\n${formatSkills()}\n\nMy strongest areas are AI/ML systems, computer vision, and full-stack engineering.`;
+  if (match(q, "skill", "tech", "stack", "language", "framework", "tool", "know how", "expertise", "proficient")) {
+    return `Here's a breakdown of my technical skills:\n\n${formatSkills()}\n\nStrongest areas are AI/ML systems, full-stack engineering, and cloud infrastructure.`;
   }
 
-  if (askRate) {
-    return `My base rate is **$80/hr** for core engineering and AI work — computer vision, RAG systems, full-stack development. Smaller tasks and content creation start from $50/hr. Happy to talk through scope if you have something in mind.`;
+  if (match(q, "service", "offer", "what do you do", "help with", "provide", "what can you")) {
+    return `Here's what I offer:\n\n${formatCoreServices()}\n\n**Additional services** (${servicesData.rateAdditional}): Social Media Management, Artist Management, Tech Support for Social Platforms.\n\nEvery engagement includes clean code, regular updates, production deployment, and full IP ownership.`;
   }
 
-  if (askContact) {
+  if (match(q, "rate", "price", "cost", "charge", "per hour", "fee", "pricing", "how much")) {
+    return `My base rate is **${servicesData.rateCore}** for core engineering and AI work — full-stack development, AI systems, computer vision, data analytics.\n\n**${servicesData.rateAdditional}** for additional services like social media management, artist management, and platform tech support.\n\nHappy to discuss project scope and estimates — reach me on WhatsApp or via Calendly.`;
+  }
+
+  if (match(q, "contact", "reach", "email", "whatsapp", "message", "hire", "available", "book", "meet", "schedule")) {
     return `Best ways to reach me:\n\n- **WhatsApp:** [+1 (227) 249-2922](https://wa.me/${profile.contact.whatsapp})\n- **Calendly:** [Book a call](${profile.contact.calendly})\n- **Email:** ${profile.contact.email}\n\nI respond quickly — usually within a few hours during DC business hours.`;
   }
 
-  if (askLocation) {
-    return `I'm based in **${profile.location}** — currently at 620 Michigan Ave., N.E. I work with clients globally though. Location has never been a barrier.`;
+  if (match(q, "where", "location", "based", "country", "city", "live", "from", "address")) {
+    return `Based in **${profile.location}** — 620 Michigan Ave., N.E., Washington, DC 20064. I work with clients globally; location has never been a barrier.`;
   }
 
-  if (askLinkedIn) {
-    return `You can find me at [linkedin.com/in/amonigel](${profile.social.linkedin}). I share AI and engineering insights there when I'm not building things.`;
+  if (match(q, "client", "corporate", "company", "who have you", "worked with", "customer")) {
+    return `I've worked with notable organisations including Softrite Private Limited, FBC Bank Limited, the Government of Zimbabwe (Ministry of Defence and other agencies), African Sun Hotels, Mahindra Zimbabwe, Royal Harare Golf Club, Quest Financial Services, Nzira Travel, Rotary Zimbabwe, The Catholic University of America, and 9+ Zimbabwean content creators.\n\nOver 100 clients served, spanning fintech, government, hospitality, banking, automotive, non-profit, and AI research.`;
   }
 
-  // Try KB-based fallback for anything the pattern matching didn't catch
-  const kbContext = getRelevantChunks(query, 2);
-  if (kbContext) {
-    return `Based on what I know: ${kbContext.replace(/\*/g, "")}\n\nFeel free to ask anything more specific — about my work, background, or how to reach me.`;
+  if (match(q, "influencer", "creator", "comic elder", "gamu", "frets", "artist", "social media manager")) {
+    return `I manage 9+ Zimbabwean content creators: Comic Elder, Gamu, Frets Donzvo, Mbuya Va Piyasoni, Stunt Master Flex, Rutendo, Sarah Takawira, Stimy Stimela, and Tunga.\n\nServices include platform management, monetisation strategy, account security, audience growth, and brand partnerships across Facebook, YouTube, Instagram, and TikTok.`;
+  }
+
+  if (match(q, "linkedin", "github", "instagram", "social", "online profile", "find you")) {
+    return `- **LinkedIn:** [linkedin.com/in/amonigel](${profile.social.linkedin})\n- **GitHub:** [github.com/${profile.social.github}](https://github.com/${profile.social.github})\n- **Instagram:** [instagram.com/nigel_amo](https://www.instagram.com/nigel_amo)`;
+  }
+
+  if (match(q, "philosophy", "believe", "approach", "values", "quote")) {
+    return `I believe God gave me the talent to do my work in a way that leaves a lasting feel — so that people will always remember my name when they want to work on similar projects.\n\nI've been at the intersection of software engineering and client success for 8+ years. I value **customer experience over customer service** — service is transactional, experience is transformational.`;
   }
 
   // Generic fallback
-  const topics = ["projects", "experience", "skills", "education", "how to reach me"];
+  const topics = ["projects", "career experience", "technical skills", "services and rates", "how to reach me"];
   const rand = topics[Math.floor(Math.random() * topics.length)];
   const lastAssistant = [...history].reverse().find((m) => m.role === "assistant");
 
   if (lastAssistant) {
-    return `I can dig into my **${rand}** if that's useful, or just ask me something specific — I'm pretty open.`;
+    return `I can tell you more about my **${rand}** if that's useful — or just ask something specific.`;
   }
 
   return `Good question. I can speak to my **${rand}**, or anything else about my background and work. What's most useful for you?`;

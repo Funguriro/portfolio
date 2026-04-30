@@ -38,7 +38,7 @@ export default function ProjectCards({ inline = false }: { inline?: boolean }) {
             </div>
 
             <p className="text-xs text-[var(--muted)] leading-relaxed mb-4">
-              {project.description}
+              {project.summary}
             </p>
 
             <div className="flex flex-wrap gap-1.5 mb-4">

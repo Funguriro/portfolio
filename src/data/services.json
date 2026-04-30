@@ -1,0 +1,77 @@
+{
+  "rateCore": "$80/hr",
+  "rateAdditional": "$50/hr",
+  "core": [
+    {
+      "title": "Modern AI Website Development",
+      "tagline": "Intelligent websites that think and adapt",
+      "description": "Full-stack web applications integrating RAG-powered search, conversational AI chatbots, smart content personalization, and real-time data features. Engineered for performance, accessibility, and scalable deployment on cloud infrastructure.",
+      "detail": "Whether you need a portfolio, SaaS platform, or enterprise portal, everything from UI design to API integration and deployment is covered — shipping production-ready products that impress users and perform at scale.",
+      "stack": ["Next.js", "React", "TypeScript", "OpenAI", "Pinecone", "PostgreSQL", "Vercel"]
+    },
+    {
+      "title": "App Development",
+      "tagline": "Cross-platform apps built for the real world",
+      "description": "Mobile and progressive web applications using React Native and Next.js with cloud-native backends. Clean, maintainable codebases with solid authentication, real-time sync, push notifications, and offline support baked in from day one.",
+      "detail": "Apps built with the end user in mind — fast, intuitive, and rock-solid across iOS, Android, and web. Whether a startup MVP or a feature extension, shipping apps that feel native and work reliably.",
+      "stack": ["React Native", "Expo", "Next.js", "Firebase", "Supabase", "REST / GraphQL"]
+    },
+    {
+      "title": "AI Automation & Pipeline Engineering",
+      "tagline": "From raw data to decisions — automated",
+      "description": "End-to-end machine learning pipelines that ingest, clean, transform, and serve data at scale. From scheduled ETL workflows to real-time streaming pipelines, eliminating manual processes and creating systems that run autonomously.",
+      "detail": "Using tools like Apache Airflow, LangChain, and FastAPI, architecting robust automation systems that integrate with existing stacks and scale without friction. Pipelines built for financial analytics, media monitoring, and computer vision data flows.",
+      "stack": ["Python", "Airflow", "LangChain", "FastAPI", "Docker", "AWS / GCP", "Kafka"]
+    },
+    {
+      "title": "AI Agents",
+      "tagline": "Autonomous systems that reason and execute",
+      "description": "AI agents capable of multi-step reasoning, tool use, and autonomous task execution. Not simple chatbots — intelligent systems that can research, plan, make decisions, and interact with APIs, databases, and external services autonomously.",
+      "detail": "Applications include customer support automation, research assistants, operations bots, and complex workflow orchestration. Agents built with safety guardrails, observability, and fallback logic for reliable production performance.",
+      "stack": ["OpenAI", "LangChain", "LangGraph", "Python", "Function Calling", "Vector DBs"]
+    },
+    {
+      "title": "Data Analytics & Visualization",
+      "tagline": "Turn raw numbers into clear strategy",
+      "description": "Transforming messy, siloed data into clean, interactive intelligence — building dashboards, reporting pipelines, and predictive models that surface the insights businesses need to act faster and smarter.",
+      "detail": "Analytics work covers exploratory data analysis, statistical modelling, KPI dashboards, and ML-based forecasting. Findings presented clearly — whether for executives, engineers, or investors — ensuring insight drives action.",
+      "stack": ["Python", "Pandas", "SQL", "Tableau", "Power BI", "D3.js", "Scikit-learn"]
+    },
+    {
+      "title": "Computer Vision Solutions",
+      "tagline": "Teaching machines to see and understand",
+      "description": "Real-time image recognition, object detection, video analysis, and facial recognition systems using state-of-the-art deep learning architectures. CV systems optimized for both research accuracy and production-grade latency.",
+      "detail": "From YOLO-based detection pipelines to custom CNN classifiers trained on domain data, delivering CV solutions that work reliably in real conditions. Use cases include security surveillance, quality inspection, sports analytics, and medical imaging.",
+      "stack": ["PyTorch", "OpenCV", "YOLO", "TensorFlow", "ONNX", "Python", "CUDA"]
+    }
+  ],
+  "additional": [
+    {
+      "title": "Social Media Influencer Management",
+      "description": "Strategy, scheduling, analytics, brand partnerships, and cross-platform growth for content creators and influencers."
+    },
+    {
+      "title": "Artist Management",
+      "description": "Digital presence setup, release planning, playlist pitching, booking support, and online brand development for musicians and performers."
+    },
+    {
+      "title": "Tech Support for Social Platforms",
+      "description": "Troubleshooting, account recovery, monetisation setup, and platform optimisation for creators managing complex multi-channel presence."
+    }
+  ],
+  "process": [
+    { "step": "01", "title": "Discovery", "description": "Align on goals, constraints, timeline, and the data landscape. Ask the right questions upfront so nothing gets rebuilt later." },
+    { "step": "02", "title": "Architecture", "description": "Design the system blueprint — choosing the right stack, infrastructure, and AI models for specific requirements and scale." },
+    { "step": "03", "title": "Build", "description": "Iterative development with regular checkpoints. Progress is visible early and often — no big reveal at the end." },
+    { "step": "04", "title": "Deploy", "description": "Production-ready launch with monitoring, error tracking, and documentation so you can operate confidently from day one." },
+    { "step": "05", "title": "Iterate", "description": "Post-launch optimisation, feature additions, and ongoing support. Good software evolves — staying engaged as systems grow." }
+  ],
+  "guarantees": [
+    "Clean, documented, maintainable code",
+    "Regular progress updates and demos",
+    "Production deployment included",
+    "Post-launch support window",
+    "Transparent, hourly billing",
+    "Full IP ownership transferred to you"
+  ]
+}
